@@ -16,7 +16,7 @@ defmodule LiquidVotingAuthWeb.Router do
   scope "/", LiquidVotingAuthWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", TokenController, :index
   end
 
   # Other scopes may use custom stacks.
