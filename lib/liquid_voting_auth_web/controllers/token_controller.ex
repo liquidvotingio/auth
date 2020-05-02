@@ -6,9 +6,9 @@ defmodule LiquidVotingAuthWeb.TokenController do
   def index(conn, _params) do
     case get_req_header(conn, "authorization") do
       ["Bearer " <> @demo_token] ->
-        conn |> put_status(200)
+        conn |> send_resp(200, "")
       _ ->
-        conn |> put_status(401)
+        conn |> send_resp(401, "")
     end
   end
 end
