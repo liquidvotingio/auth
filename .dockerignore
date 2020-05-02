@@ -1,0 +1,12 @@
+.git
+_build
+deps
+test
+k8s
+erl_crash.dump
+*.ez
+liquid_voting_auth-*.tar
+priv/static
+.iex.exs
+.DS_Store
+perftest
