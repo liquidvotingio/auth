@@ -14,7 +14,7 @@ defmodule LiquidVotingAuthWeb.Router do
   end
 
   scope "/", LiquidVotingAuthWeb do
-    pipe_through :browser
+    # pipe_through :api
 
     get "/", TokenController, :index
   end
