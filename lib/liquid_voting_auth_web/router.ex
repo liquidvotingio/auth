@@ -16,7 +16,7 @@ defmodule LiquidVotingAuthWeb.Router do
   scope "/", LiquidVotingAuthWeb do
     # pipe_through :api
 
-    get "/", TokenController, :index
+    get "/_external-auth*encoded_nginx_auth_url", TokenController, :index
   end
 
   # Other scopes may use custom stacks.
