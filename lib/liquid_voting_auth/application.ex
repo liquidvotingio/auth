@@ -7,9 +7,8 @@ defmodule LiquidVotingAuth.Application do
 
   def start(_type, _args) do
     children = [
-      # ECTO IS DISABLED UNTIL WE NEED IT
       # Start the Ecto repository
-      # LiquidVotingAuth.Repo,
+      LiquidVotingAuth.Repo,
       # Start the Telemetry supervisor
       LiquidVotingAuthWeb.Telemetry,
       # Start the PubSub system
