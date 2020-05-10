@@ -1,4 +1,4 @@
-defmodule LiquidVotingAuthWeb.TokenController do
+defmodule LiquidVotingAuthWeb.AuthController do
   use LiquidVotingAuthWeb, :controller
 
   @demo_token "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
