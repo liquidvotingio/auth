@@ -1,4 +1,4 @@
-defmodule LiquidVotingAuthWeb.TokenControllerTest do
+defmodule LiquidVotingAuthWeb.AuthControllerTest do
   use LiquidVotingAuthWeb.ConnCase
 
   describe "authorization header includes our demo token" do
