@@ -32,11 +32,11 @@ defmodule LiquidVotingAuthWeb.ConnCase do
   end
 
   setup tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(LiquidVotingAuth.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(LiquidVotingAuth.Repo)
 
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(LiquidVotingAuth.Repo, {:shared, self()})
-    # end
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(LiquidVotingAuth.Repo, {:shared, self()})
+    end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
