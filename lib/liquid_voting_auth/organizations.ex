@@ -38,6 +38,21 @@ defmodule LiquidVotingAuth.Organizations do
   def get_organization!(uuid), do: Repo.get!(Organization, uuid)
 
   @doc """
+  Checks if an organization with given auth key exists
+
+  ## Examples
+
+    iex> exists_with_auth_key?("aifsadf7234H")
+    true
+
+    iex> exists_with_auth_key?("badkey")
+    false
+  """
+  def exists_with_auth_key?(auth_key) do
+    Repo.exists?(from o in Organization, where: o.auth_key == ^auth_key)
+  end
+
+  @doc """
   Creates a organization.
 
   ## Examples
