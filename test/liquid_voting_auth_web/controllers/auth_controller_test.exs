@@ -13,10 +13,22 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
   end
 
   describe "no authorization header" do
-    
+    test "GET /_external-auth*", %{conn: conn} do
+      conn = conn
+        |> get("/_external-auth")
+
+      assert conn.status == 401
+    end
   end
 
   describe "bad authorization header" do
-    
+    test "GET /_external-auth*", %{conn: conn} do
+      token = "bad,bad token"
+      conn = conn
+        |> Plug.Conn.put_req_header("authorization", "Bearer " <> token)
+        |> get("/_external-auth")
+
+      assert conn.status == 401
+    end
   end
 end
