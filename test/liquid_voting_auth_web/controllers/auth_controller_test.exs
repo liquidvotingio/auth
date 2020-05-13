@@ -1,11 +1,11 @@
 defmodule LiquidVotingAuthWeb.AuthControllerTest do
   use LiquidVotingAuthWeb.ConnCase
 
-  describe "authorization header includes our demo token" do
+  describe "authorization header includes our demo auth key" do
     test "GET /_external-auth*", %{conn: conn} do
-      token = "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
+      auth_key = "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
       conn = conn
-        |> Plug.Conn.put_req_header("authorization", "Bearer " <> token)
+        |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
       assert conn.status == 200
@@ -23,9 +23,9 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
 
   describe "bad authorization header" do
     test "GET /_external-auth*", %{conn: conn} do
-      token = "bad,bad token"
+      auth_key = "bad auth key"
       conn = conn
-        |> Plug.Conn.put_req_header("authorization", "Bearer " <> token)
+        |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
       assert conn.status == 401
