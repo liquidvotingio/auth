@@ -50,6 +50,8 @@ defmodule LiquidVotingAuth.Organizations do
   """
   def exists_with_auth_key?(auth_key) do
     Repo.exists?(from o in Organization, where: o.auth_key == ^auth_key)
+  rescue
+    Ecto.Query.CastError -> false
   end
 
   @doc """
