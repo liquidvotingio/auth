@@ -34,4 +34,15 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
       assert conn.status == 401
     end
   end
+
+  describe "authorization header includes auth key in bad format" do
+    test "GET /_external-auth*", %{conn: conn} do
+      auth_key = "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
+      conn = conn
+        |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
+        |> get("/_external-auth")
+
+      assert conn.status == 401
+    end
+  end
 end
