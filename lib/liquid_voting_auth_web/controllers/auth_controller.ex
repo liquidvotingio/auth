@@ -8,8 +8,10 @@ defmodule LiquidVotingAuthWeb.AuthController do
       [header_value] <- get_req_header(conn, "authorization"),
       {:ok, auth_key} <- get_bearer(header_value)
     ) do
-      if registered?(auth_key) do
-        conn |> send_resp(200, "")
+      if org = registered?(auth_key) do
+        conn
+          |> put_resp_header("org-uuid", org.uuid)
+          |> send_resp(200, "")
       else
         conn |> send_resp(401, "")
       end
@@ -19,7 +21,7 @@ defmodule LiquidVotingAuthWeb.AuthController do
   end
 
   defp registered?(auth_key) do
-    Organizations.exists_with_auth_key?(auth_key)
+    Organizations.get_organization_with_auth_key(auth_key)
   end
 
   defp get_bearer(header_value) do
