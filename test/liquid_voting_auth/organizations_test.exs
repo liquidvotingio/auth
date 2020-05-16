@@ -29,19 +29,19 @@ defmodule LiquidVotingAuth.OrganizationsTest do
       assert Organizations.get_organization!(organization.uuid) == organization
     end
 
-    test "exists_with_auth_key?/1 returns true when organization if found with given auth key" do
+    test "get_organization_with_auth_key/1 returns org uuid when organization is found with given auth key" do
       organization = organization_fixture()
-      assert Organizations.exists_with_auth_key?(organization.auth_key) == true
+      assert Organizations.get_organization_with_auth_key(organization.auth_key) == organization
     end
 
-    test "exists_with_auth_key?/1 returns false when organization is not found with given auth key" do
+    test "get_organization_with_auth_key/1 returns nil when organization is not found with given auth key" do
       unregistered_auth_key = Ecto.UUID.generate
-      assert Organizations.exists_with_auth_key?(unregistered_auth_key) == false
+      assert Organizations.get_organization_with_auth_key(unregistered_auth_key) == nil
     end
 
-    test "exists_with_auth_key?/1 returns false when given auth key isn't a Ecto.UUID" do
+    test "get_organization_with_auth_key/1 returns nil when given auth key isn't a Ecto.UUID" do
       bad_format_auth_key = "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
-      assert Organizations.exists_with_auth_key?(bad_format_auth_key) == false
+      assert Organizations.get_organization_with_auth_key(bad_format_auth_key) == nil
     end
 
     test "create_organization/1 with valid data creates a organization" do
