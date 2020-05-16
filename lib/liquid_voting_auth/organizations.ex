@@ -42,16 +42,16 @@ defmodule LiquidVotingAuth.Organizations do
 
   ## Examples
 
-    iex> exists_with_auth_key?("aifsadf7234H")
-    true
+    iex> get_organization_with_auth_key("aifsadf7234H")
+    %Organization{}
 
-    iex> exists_with_auth_key?("badkey")
-    false
+    iex> get_organization_with_auth_key("badkey")
+    nil
   """
-  def exists_with_auth_key?(auth_key) do
-    Repo.exists?(from o in Organization, where: o.auth_key == ^auth_key)
+  def get_organization_with_auth_key(auth_key) do
+    Repo.get_by(Organization, auth_key: auth_key)
   rescue
-    Ecto.Query.CastError -> false
+    Ecto.Query.CastError -> nil
   end
 
   @doc """
