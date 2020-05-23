@@ -3,6 +3,10 @@
 ```bash
 docker run -it --rm \
   -e SECRET_KEY_BASE=$(mix phx.gen.secret) \
+  -e DB_USERNAME=postgres \
+  -e DB_PASSWORD=postgres \
+  -e DB_NAME=liquid_voting_auth_dev \
+  -e DB_HOST=host.docker.internal \
   -p 4000:4000 \
   docker.pkg.github.com/liquidvotingio/auth/liquid-voting-auth:latest
 
