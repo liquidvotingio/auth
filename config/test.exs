@@ -8,7 +8,7 @@ use Mix.Config
 config :liquid_voting_auth, LiquidVotingAuth.Repo,
   username: "postgres",
   password: "postgres",
-  database: "liquid_voting_auth_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "liquid_voting_auth_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
