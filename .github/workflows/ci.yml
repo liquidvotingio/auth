@@ -1,0 +1,97 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - 'README.md'
+    - 'LICENSE'
+    - 'CODE_OF_CONDUCT.md'
+  pull_request:
+    branches:
+    - master
+    paths-ignore:
+    - 'README.md'
+    - 'LICENSE'
+    - 'CODE_OF_CONDUCT.md'
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    container:
+      image: elixir:1.10.2-slim
+    services:
+      postgres:
+        image: postgres:10.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: liquid_voting_auth_test
+        ports:
+          - 5432:5432
+        # postgres container doesn't provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Dependencies
+      run: |
+        mix local.rebar --force
+        mix local.hex --force
+        mix deps.get
+    - name: Run Tests
+      run: mix test
+      env:
+        MIX_ENV: test
+        # refers to the service name, since we're running on containers
+        POSTGRES_HOST: postgres
+
+  build-publish:
+    name: Build & Publish Docker Image
+    needs: [tests]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: docker.pkg.github.com/${{ github.repository }}/auth
+      TAG: ${{ github.sha }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Image
+      run: |
+        docker build -t $IMAGE_NAME:$TAG .
+        docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:latest
+    - name: Login to Github Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: docker.pkg.github.com
+        username: $GITHUB_ACTOR
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish Image
+      run: |
+        docker push $IMAGE_NAME
+
+  deploy:
+    name: Deploy to GKE
+    needs: [build-publish]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Login to gcloud
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GKE_EMAIL }}
+        service_account_key: ${{ secrets.GKE_KEY }}
+    - name: Deploy
+      env:
+        GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+        GKE_ZONE: ${{ secrets.GKE_ZONE }}
+        GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER --zone $GKE_ZONE --project $GKE_PROJECT
+        kubectl rollout restart deployment/auth-deployment
+        pod=$(kubectl get pods -l app=auth  -o json | jq -r '.items[].metadata.name' | head -1)
+        kubectl wait --timeout=120s --for=condition=Ready pod/$pod
+        kubectl exec -ti pod/$pod \
+        --container auth-container \
+        -- /opt/app/bin/liquid_voting_auth \
+        eval "LiquidVotingAuth.Release.migrate"
