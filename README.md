@@ -8,7 +8,7 @@ docker run -it --rm \
   -e DB_NAME=liquid_voting_auth_dev \
   -e DB_HOST=host.docker.internal \
   -p 4000:4000 \
-  docker.pkg.github.com/liquidvotingio/auth/liquid-voting-auth:latest
+  docker.pkg.github.com/liquidvotingio/auth/auth:latest
 
 curl -I http://localhost:4000/_external-auth -H "Authorization: Bearer 62309201-d2f0-407f-875b-9f836f94f2ca"
   HTTP/1.1 200 OK
