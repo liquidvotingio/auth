@@ -93,5 +93,5 @@ jobs:
         kubectl wait --timeout=120s --for=condition=Ready pod/$pod
         kubectl exec -ti pod/$pod \
         --container auth-container \
-        -- /opt/app/bin/liquid_voting_auth \
+        -- /home/myuser/bin/liquid_voting_auth \
         eval "LiquidVotingAuth.Release.migrate"
