@@ -1,5 +1,7 @@
 # LiquidVotingAuth
 
+[![Actions Status](https://github.com/liquidvotingio/auth/workflows/CI/CD/badge.svg)](https://github.com/liquidvotingio/auth/actions?query=workflow%3ACI%2FCD)
+
 ```bash
 docker run -it --rm \
   -e SECRET_KEY_BASE=$(mix phx.gen.secret) \
