@@ -1,6 +1,6 @@
 # LiquidVotingAuth
 
-[![Actions Status](https://github.com/liquidvotingio/auth/workflows/CI/CD/badge.svg)](https://github.com/liquidvotingio/auth/actions?query=workflow%3ACI%2FCD)
+[![Actions Status](https://github.com/liquidvotingio/auth/workflows/CD/badge.svg)](https://github.com/liquidvotingio/auth/actions?query=workflow%3ACD)
 
 ```bash
 docker run -it --rm \
