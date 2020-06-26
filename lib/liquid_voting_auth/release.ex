@@ -37,13 +37,15 @@ defmodule LiquidVotingAuth.Release do
     for repo <- repos() do
       attrs = %{name: org_name}
 
-      {:ok, org, _} = Ecto.Migrator.with_repo(repo, fn repo ->
-        %Organization{}
-        |> Organization.changeset(attrs)
-        |> repo.insert!
-      end)
-      IO.puts "Organization #{org.name} created"
-      IO.puts "Auth key: #{org.auth_key}"
+      {:ok, org, _} =
+        Ecto.Migrator.with_repo(repo, fn repo ->
+          %Organization{}
+          |> Organization.changeset(attrs)
+          |> repo.insert!
+        end)
+
+      IO.puts("Organization #{org.name} created")
+      IO.puts("Auth key: #{org.auth_key}")
     end
   end
 

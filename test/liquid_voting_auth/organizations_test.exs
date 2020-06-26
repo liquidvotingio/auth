@@ -35,7 +35,7 @@ defmodule LiquidVotingAuth.OrganizationsTest do
     end
 
     test "get_organization_with_auth_key/1 returns nil when organization is not found with given auth key" do
-      unregistered_auth_key = Ecto.UUID.generate
+      unregistered_auth_key = Ecto.UUID.generate()
       assert Organizations.get_organization_with_auth_key(unregistered_auth_key) == nil
     end
 
@@ -45,7 +45,9 @@ defmodule LiquidVotingAuth.OrganizationsTest do
     end
 
     test "create_organization/1 with valid data creates a organization" do
-      assert {:ok, %Organization{} = organization} = Organizations.create_organization(@valid_attrs)
+      assert {:ok, %Organization{} = organization} =
+               Organizations.create_organization(@valid_attrs)
+
       assert organization.name == "some name"
     end
 
@@ -55,20 +57,29 @@ defmodule LiquidVotingAuth.OrganizationsTest do
 
     test "update_organization/2 with valid data updates the organization" do
       organization = organization_fixture()
-      assert {:ok, %Organization{} = organization} = Organizations.update_organization(organization, @update_attrs)
+
+      assert {:ok, %Organization{} = organization} =
+               Organizations.update_organization(organization, @update_attrs)
+
       assert organization.name == "some updated name"
     end
 
     test "update_organization/2 with invalid data returns error changeset" do
       organization = organization_fixture()
-      assert {:error, %Ecto.Changeset{}} = Organizations.update_organization(organization, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.update_organization(organization, @invalid_attrs)
+
       assert organization == Organizations.get_organization!(organization.uuid)
     end
 
     test "delete_organization/1 deletes the organization" do
       organization = organization_fixture()
       assert {:ok, %Organization{}} = Organizations.delete_organization(organization)
-      assert_raise Ecto.NoResultsError, fn -> Organizations.get_organization!(organization.uuid) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Organizations.get_organization!(organization.uuid)
+      end
     end
 
     test "change_organization/1 returns a organization changeset" do
