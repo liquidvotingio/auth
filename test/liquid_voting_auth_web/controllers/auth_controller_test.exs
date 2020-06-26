@@ -7,7 +7,9 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
     test "GET /_external-auth* responds with 200 OK", %{conn: conn} do
       {:ok, organization} = Organizations.create_organization(%{name: "Democratic Circus"})
       auth_key = organization.auth_key
-      conn = conn
+
+      conn =
+        conn
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
@@ -17,7 +19,9 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
     test "GET /_external-auth* responds with org-uuid header", %{conn: conn} do
       {:ok, organization} = Organizations.create_organization(%{name: "Democratic Circus"})
       auth_key = organization.auth_key
-      conn = conn
+
+      conn =
+        conn
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
@@ -27,7 +31,8 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
 
   describe "when no authorization header" do
     test "GET /_external-auth* responds with 401 Unauthorized", %{conn: conn} do
-      conn = conn
+      conn =
+        conn
         |> get("/_external-auth")
 
       assert conn.status == 401
@@ -36,8 +41,10 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
 
   describe "when authorization header includes unregistered auth key" do
     test "GET /_external-auth* responds with 401 Unauthorized", %{conn: conn} do
-      auth_key = Ecto.UUID.generate
-      conn = conn
+      auth_key = Ecto.UUID.generate()
+
+      conn =
+        conn
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
@@ -48,7 +55,9 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
   describe "when authorization header includes auth key in bad format" do
     test "GET /_external-auth* responds with 401 Unauthorized", %{conn: conn} do
       auth_key = "1nHSXC7/hJIO0yjjclx2TnxrtofcXCT+iBl2M7p2uThWNIRnsBxIqurrr66Vr22h"
-      conn = conn
+
+      conn =
+        conn
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
