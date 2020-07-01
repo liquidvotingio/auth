@@ -31,10 +31,7 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
 
   describe "when no authorization header" do
     test "GET /_external-auth* responds with 401 Unauthorized", %{conn: conn} do
-      conn =
-        conn
-        |> get("/_external-auth")
-
+      conn = get(conn, "/_external-auth")
       assert conn.status == 401
     end
   end
