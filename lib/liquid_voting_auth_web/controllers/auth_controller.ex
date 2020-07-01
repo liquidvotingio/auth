@@ -20,9 +20,7 @@ defmodule LiquidVotingAuthWeb.AuthController do
     end
   end
 
-  defp registered?(auth_key) do
-    Organizations.get_organization_with_auth_key(auth_key)
-  end
+  defp registered?(auth_key), do: Organizations.get_organization_with_auth_key(auth_key)
 
   defp get_bearer(header_value) do
     with(
