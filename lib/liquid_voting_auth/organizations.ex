@@ -4,8 +4,8 @@ defmodule LiquidVotingAuth.Organizations do
   """
 
   import Ecto.Query, warn: false
-  alias LiquidVotingAuth.Repo
 
+  alias LiquidVotingAuth.Repo
   alias LiquidVotingAuth.Organizations.Organization
 
   @doc """
@@ -17,9 +17,7 @@ defmodule LiquidVotingAuth.Organizations do
       [%Organization{}, ...]
 
   """
-  def list_organizations do
-    Repo.all(Organization)
-  end
+  def list_organizations(), do: Repo.all(Organization)
 
   @doc """
   Gets a single organization.
@@ -102,9 +100,7 @@ defmodule LiquidVotingAuth.Organizations do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_organization(%Organization{} = organization) do
-    Repo.delete(organization)
-  end
+  def delete_organization(%Organization{} = organization), do: Repo.delete(organization)
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking organization changes.
@@ -115,7 +111,6 @@ defmodule LiquidVotingAuth.Organizations do
       %Ecto.Changeset{data: %Organization{}}
 
   """
-  def change_organization(%Organization{} = organization, attrs \\ %{}) do
-    Organization.changeset(organization, attrs)
-  end
+  def change_organization(%Organization{} = organization, attrs \\ %{}),
+    do: Organization.changeset(organization, attrs)
 end
