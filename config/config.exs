@@ -10,6 +10,9 @@ use Mix.Config
 config :liquid_voting_auth,
   ecto_repos: [LiquidVotingAuth.Repo]
 
+config :liquid_voting_auth, LiquidVotingAuth.Repo,
+  migration_primary_key: [name: :id, type: :binary_id]
+
 # Configures the endpoint
 config :liquid_voting_auth, LiquidVotingAuthWeb.Endpoint,
   url: [host: "localhost"],
