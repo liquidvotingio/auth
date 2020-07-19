@@ -33,7 +33,7 @@ defmodule LiquidVotingAuth.Organizations do
       ** (Ecto.NoResultsError)
 
   """
-  def get_organization!(uuid), do: Repo.get!(Organization, uuid)
+  def get_organization!(id), do: Repo.get!(Organization, id)
 
   @doc """
   Checks if an organization with given auth key exists
