@@ -2,7 +2,7 @@ defmodule LiquidVotingAuth.Organizations.Organization do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key {:uuid, :binary_id, autogenerate: true}
+  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "organizations" do
     field :auth_key, Ecto.UUID, autogenerate: true

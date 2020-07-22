@@ -10,7 +10,7 @@ defmodule LiquidVotingAuthWeb.AuthController do
     ) do
       if org = registered?(auth_key) do
         conn
-        |> put_resp_header("org-uuid", org.uuid)
+        |> put_resp_header("org-uuid", org.id)
         |> send_resp(200, "")
       else
         conn |> send_resp(401, "")
