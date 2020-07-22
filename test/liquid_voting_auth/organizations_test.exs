@@ -24,12 +24,12 @@ defmodule LiquidVotingAuth.OrganizationsTest do
       assert Organizations.list_organizations() == [organization]
     end
 
-    test "get_organization!/1 returns the organization with given uuid" do
+    test "get_organization!/1 returns the organization with given id" do
       organization = organization_fixture()
-      assert Organizations.get_organization!(organization.uuid) == organization
+      assert Organizations.get_organization!(organization.id) == organization
     end
 
-    test "get_organization_with_auth_key/1 returns org uuid when organization is found with given auth key" do
+    test "get_organization_with_auth_key/1 returns org id when organization is found with given auth key" do
       organization = organization_fixture()
       assert Organizations.get_organization_with_auth_key(organization.auth_key) == organization
     end
@@ -70,7 +70,7 @@ defmodule LiquidVotingAuth.OrganizationsTest do
       assert {:error, %Ecto.Changeset{}} =
                Organizations.update_organization(organization, @invalid_attrs)
 
-      assert organization == Organizations.get_organization!(organization.uuid)
+      assert organization == Organizations.get_organization!(organization.id)
     end
 
     test "delete_organization/1 deletes the organization" do
@@ -78,7 +78,7 @@ defmodule LiquidVotingAuth.OrganizationsTest do
       assert {:ok, %Organization{}} = Organizations.delete_organization(organization)
 
       assert_raise Ecto.NoResultsError, fn ->
-        Organizations.get_organization!(organization.uuid)
+        Organizations.get_organization!(organization.id)
       end
     end
 

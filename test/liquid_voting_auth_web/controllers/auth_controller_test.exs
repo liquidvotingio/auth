@@ -25,7 +25,7 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
-      assert Plug.Conn.get_resp_header(conn, "org-uuid") == [organization.uuid]
+      assert Plug.Conn.get_resp_header(conn, "org-uuid") == [organization.id]
     end
   end
 
