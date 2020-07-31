@@ -16,7 +16,7 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
       assert conn.status == 200
     end
 
-    test "GET /_external-auth* responds with Org-ID header", %{conn: conn} do
+    test "GET /_external-auth* responds with org-id header", %{conn: conn} do
       {:ok, organization} = Organizations.create_organization(%{name: "Democratic Circus"})
       auth_key = organization.auth_key
 
@@ -25,7 +25,7 @@ defmodule LiquidVotingAuthWeb.AuthControllerTest do
         |> Plug.Conn.put_req_header("authorization", "Bearer " <> auth_key)
         |> get("/_external-auth")
 
-      assert Plug.Conn.get_resp_header(conn, "Org-ID") == [organization.id]
+      assert Plug.Conn.get_resp_header(conn, "org-id") == [organization.id]
     end
   end
 
