@@ -79,17 +79,11 @@ jobs:
         docker push $IMAGE_NAME
 
   deploy:
-    name: Deploy to GKE
+    name: Deploy to Linode
     needs: [build-publish]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Login to gcloud
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        version: '270.0.0'
-        service_account_email: ${{ secrets.GKE_EMAIL }}
-        service_account_key: ${{ secrets.GKE_KEY }}
     - name: Deploy
       env:
         KUBE_CONFIG_DATA: ${{ secrets.LINODE_KUBE_CONFIG }}
